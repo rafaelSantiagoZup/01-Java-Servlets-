@@ -1,25 +1,33 @@
 package br.com.alura.gerenciador.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import br.com.alura.gerenciador.servlet.model.Banco;
 import br.com.alura.gerenciador.servlet.model.Empresa;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class getListaEmpresas extends HttpServlet {
+
+public class editarEmpresa extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
+
 		Banco banco = new Banco();
-		List<Empresa> lista = banco.retornaEmpresas();
-		RequestDispatcher rd = request.getRequestDispatcher("/listaEmpresas.jsp");
-		request.setAttribute("empresas", lista);
+		Empresa empresa = banco.buscaEmpresaById(id);
+		
+		request.setAttribute("empresa", empresa);
+		RequestDispatcher rd = request.getRequestDispatcher("/formAlteraEmpresa.jsp");
 		rd.forward(request, response);
+		
+		
 	}
+
 }
